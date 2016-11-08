@@ -4,6 +4,7 @@ import Match from 'react-router/Match';
 import Link from 'react-router/Link';
 import Redirect from 'react-router/Redirect';
 import Router from 'react-router/BrowserRouter';
+import { Provider } from 'react-redux';
 
 import LoginPage from '../pages/Login';
 
@@ -21,13 +22,15 @@ const fakeAuth = {
 }
 
 ////////////////////////////////////////////////////////////
-const AuthExample = () => (
-  <Router>
-      <div>
-        <Match pattern="/login" component={LoginPage}/>
-        <MatchWhenAuthorized pattern="/" component={() => <div>This is the protected page</div>}/>
-      </div>
-  </Router>
+const AuthExample = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+        <div>
+          <Match pattern="/login" component={LoginPage}/>
+          <MatchWhenAuthorized pattern="/" component={() => <div>This is the protected page</div>}/>
+        </div>
+    </Router>
+  </Provider>
 );
 
 ////////////////////////////////////////////////////////////

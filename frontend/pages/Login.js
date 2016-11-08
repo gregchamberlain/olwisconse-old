@@ -1,14 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Login = () => (
-  <div style={styles.root}>
-      <label style={styles.label}>Username</label>
-      <input type="text" style={styles.input}/>
-      <label style={styles.label}>Password</label>
-      <input type="password" style={styles.input}/>
-      <input type="submit" />
-  </div>
-);
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    };
+  }
+
+  update = name => e => {
+    this.setState({[name]: e.target.value});
+  }
+
+  login = e => {
+    e.preventDefault();
+    console.log(this.state);
+  }
+
+  render() {
+    const { username, password } = this.state;
+    return (
+      <form style={styles.root} onSubmit={this.login}>
+          <label style={styles.label}>Username</label>
+          <input
+            type="text"
+            style={styles.input}
+            onChange={this.update('username')}
+            value={username}
+          />
+          <label style={styles.label}>Password</label>
+          <input
+            type="password"
+            style={styles.input}
+            onChange={this.update('password')}
+            value={password}
+          />
+          <button
+            style={{...styles.input, ...{cursor: 'pointer'}}}
+          >
+            Login
+          </button>
+      </form>
+    );
+  }
+}
 
 const styles = {
   label: {

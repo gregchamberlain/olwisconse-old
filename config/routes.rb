@@ -3,5 +3,10 @@ Rails.application.routes.draw do
 
   root 'static_pages#index'
 
-  get '*path' => 'static_pages#index' 
+  namespace :api do
+    post 'session' => 'sessions#create'
+    delete 'session' => 'sessions#destroy'
+  end
+
+  get '*path' => 'static_pages#index'
 end
