@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as ACTIONS from '../actions/session';
+import { Redirect } from 'react-router';
 
 class Login extends Component {
 
@@ -16,11 +19,14 @@ class Login extends Component {
 
   login = e => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.login(this.state);
   }
 
   render() {
     const { username, password } = this.state;
+    if (this.props.currentUser) {
+      return <Redirect to={{pathname: '/'}} />;
+    }
     return (
       <form style={styles.root} onSubmit={this.login}>
           <label style={styles.label}>Username</label>
@@ -74,10 +80,19 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundImage: 'url(https://lh3.googleusercontent.com/fojDxn5BfT7eTFHwGbvpPSjlUQAUBkgzJDzOwuPaOyQZjOIL8IYjcRpOx-kIWnJ8F-AmDjWrPyCR_3DqMXVKGI2PsSQLKOgp_j7tRod41wYe9jDNWof3Z-PJ9hYK5tfioYZ3zbwOOSP7thqqV1bRMicfKFrV7CjmgCkq-EPx6Cp79cB1I4Fw44v74A5Y1wfT5pi_Hd1pRItc-lyX7KOLV4RBWuZyNZiQZ0JhubD5UrXLrCttGYARZ2offCWTgNIuckXRsgVabzvkvgYkO0JjkEGoYqBiftocS0ESWmaKhgMIj6oL38SZX-ReK_GWU6mG_6QueiY7HriqXVx932m_u0t-qbYNyV_6lvHhSD6k68TUiau9xDA5GWUFSPuyPQb96qklux0bZNfvsZ-qd7XsL8WeqllLnKGF4coYTNTRv0djxexhcJ3cslsg1oGakFtYlJP8jvadFDVb1KLASBtnbSNBZnLuH_JAf_mdO1mj-McogyGmFvyBJpolCfUvkgzOxCuChNb_pPXHT-X11W162JptQ_uoN1_S3UPXKz0Hp0X9K-ZaI5uchb4WRxbeuhtwBmKZRykakwOb7zcFnPTG5qBaKDg227lUbTcwlUL3zXhUR3qb=w997-h651-no)',
+    backgroundColor: '#444',
+    // backgroundImage: 'url(https://lh3.googleusercontent.com/fojDxn5BfT7eTFHwGbvpPSjlUQAUBkgzJDzOwuPaOyQZjOIL8IYjcRpOx-kIWnJ8F-AmDjWrPyCR_3DqMXVKGI2PsSQLKOgp_j7tRod41wYe9jDNWof3Z-PJ9hYK5tfioYZ3zbwOOSP7thqqV1bRMicfKFrV7CjmgCkq-EPx6Cp79cB1I4Fw44v74A5Y1wfT5pi_Hd1pRItc-lyX7KOLV4RBWuZyNZiQZ0JhubD5UrXLrCttGYARZ2offCWTgNIuckXRsgVabzvkvgYkO0JjkEGoYqBiftocS0ESWmaKhgMIj6oL38SZX-ReK_GWU6mG_6QueiY7HriqXVx932m_u0t-qbYNyV_6lvHhSD6k68TUiau9xDA5GWUFSPuyPQb96qklux0bZNfvsZ-qd7XsL8WeqllLnKGF4coYTNTRv0djxexhcJ3cslsg1oGakFtYlJP8jvadFDVb1KLASBtnbSNBZnLuH_JAf_mdO1mj-McogyGmFvyBJpolCfUvkgzOxCuChNb_pPXHT-X11W162JptQ_uoN1_S3UPXKz0Hp0X9K-ZaI5uchb4WRxbeuhtwBmKZRykakwOb7zcFnPTG5qBaKDg227lUbTcwlUL3zXhUR3qb=w997-h651-no)',
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   }
 };
 
-export default Login;
+const mapStateToProps = ({ session }) => ({
+  currentUser: session.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: user => dispatch(ACTIONS.login(user))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

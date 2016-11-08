@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'static_pages#index'
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     post 'session' => 'sessions#create'
     delete 'session' => 'sessions#destroy'
   end
